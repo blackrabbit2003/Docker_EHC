@@ -1,0 +1,19 @@
+FROM ubuntu:latest
+
+RUN apt update && apt install  openssh-server sudo -y
+
+RUN useradd -rm -d /home/challenge4 -s /bin/bash -u 1000 challenge4
+
+RUN chown -R challenge4:challenge4 /home/challenge4
+
+COPY flag.tar /home/challenge4/flag.tar
+
+RUN chmod 705 /home/challenge4
+
+RUN echo 'challenge4:EHC{d0_sM4rT3r_n0t_h4rD3r}' | chpasswd
+
+RUN service ssh start
+
+EXPOSE 22
+
+CMD ["/usr/sbin/sshd","-D"]
